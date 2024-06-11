@@ -1,4 +1,4 @@
-package com.dovantuan.asm_ph31763_kot104
+package com.dovantuan.asm_ph31763_kot104.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -42,26 +43,34 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavController
+import com.dovantuan.asm_ph31763_kot104.R
+
+import com.dovantuan.asm_ph31763_kot104.navigation.Screen
 
 @Preview(showBackground = true)
 @Composable
 fun Cart(navController: NavController? = null) {
     Scaffold(
         topBar = {
-            thanhTopbar()
+            thanhTopbar(navController)
         },
         content = {
-            NoiDung(it)
+            NoiDung(it,navController)
         }
     )
 }
+data class ProductModel(val name: String, val image: Int, val price: Float)
 
 @Composable
-fun NoiDung(paddingValues: PaddingValues) {
+private fun NoiDung(paddingValues: PaddingValues,navController: NavController? = null) {
     val cartList = mutableListOf<ProductModel>()
     cartList.add(ProductModel("Product 1", R.drawable.minimalstand, 10.0f))
     cartList.add(ProductModel("Product 2", R.drawable.lamp, 20.0f))
     cartList.add(ProductModel("Product 3", R.drawable.chair, 30.0f))
+    cartList.add(ProductModel("Product 3", R.drawable.chair, 30.0f))
+    cartList.add(ProductModel("Product 3", R.drawable.chair, 30.0f))
+    cartList.add(ProductModel("Product 3", R.drawable.chair, 30.0f))
+    cartList.add(ProductModel("Product 4", R.drawable.chair, 30.0f))
 
     Box(
         modifier = Modifier
@@ -69,7 +78,11 @@ fun NoiDung(paddingValues: PaddingValues) {
             .fillMaxSize()
     ) {
 
-        LazyColumn {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxHeight(0.8f)
+                .padding(bottom = 20.dp)
+        ) {
             items(cartList) { item ->
                 ItemCart(
                     image = item.image,
@@ -92,7 +105,7 @@ fun NoiDung(paddingValues: PaddingValues) {
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            checkOut()
+            checkOut(navController)
         }
 
     }
@@ -159,7 +172,7 @@ fun enterCode() {
 }
 
 @Composable
-fun tinhTien() {
+private fun tinhTien() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -171,7 +184,7 @@ fun tinhTien() {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
 
-        ) {
+    ) {
         Text(
             text = "Total:",
             fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
@@ -191,10 +204,10 @@ fun tinhTien() {
 }
 
 @Composable
-fun checkOut() {
+private fun checkOut(navController: NavController? = null) {
     Button(
         onClick = {
-//            navController?.navigate(Screen.Cart.route)
+            navController?.navigate(Screen.CheckOut.route)
         },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color("#242424".toColorInt())
@@ -212,7 +225,7 @@ fun checkOut() {
             )
     ) {
         Text(
-            text = "Add to cart",
+            text = "Check out",
             color = Color.White,
             fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
             fontWeight = FontWeight(600),
@@ -352,7 +365,7 @@ fun ItemCart(image: Int, name: String, price: Float) {
 }
 
 @Composable
-private fun thanhTopbar() {
+private fun thanhTopbar(navController: NavController? = null) {
 
     Box(
         Modifier.padding(top = 20.dp)
@@ -383,7 +396,9 @@ private fun thanhTopbar() {
             Modifier.padding(16.dp)
         ) {
             IconButton(
-                onClick = { },
+                onClick = {
+                    navController?.popBackStack()
+                },
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.back_icon),

@@ -1,4 +1,4 @@
-package com.dovantuan.asm_ph31763_kot104
+package com.dovantuan.asm_ph31763_kot104.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

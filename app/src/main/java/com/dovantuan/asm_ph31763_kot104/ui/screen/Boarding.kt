@@ -1,4 +1,4 @@
-package com.dovantuan.asm_ph31763_kot104
+package com.dovantuan.asm_ph31763_kot104.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -28,6 +28,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavController
+import com.dovantuan.asm_ph31763_kot104.R
+
+import com.dovantuan.asm_ph31763_kot104.navigation.Screen
 
 @Composable
 fun Boarding(navController: NavController) {

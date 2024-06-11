@@ -1,4 +1,4 @@
-package com.dovantuan.asm_ph31763_kot104
+package com.dovantuan.asm_ph31763_kot104.navigation
 
 enum class Screen(val route: String) {
     Boarding("Boarding"),
@@ -10,5 +10,7 @@ enum class Screen(val route: String) {
     Profile("Profile"),
     MyBottombar("MyBottombar"),
     ProductDetail("ProductDetail"),
-
+    Cart("Cart"),
+    CheckOut("CheckOut"),
+    Congrats("Congrats"),
 }

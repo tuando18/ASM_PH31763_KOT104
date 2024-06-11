@@ -1,4 +1,4 @@
-package com.dovantuan.asm_ph31763_kot104
+package com.dovantuan.asm_ph31763_kot104.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,28 +21,46 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.core.graphics.toColorInt
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import com.dovantuan.asm_ph31763_kot104.R
+
+import com.dovantuan.asm_ph31763_kot104.navigation.Screen
+import com.dovantuan.asm_ph31763_kot104.viewModel.ViewModelProduct
 
 
-@Preview(showBackground = true)
 @Composable
-fun ProductDetail(navController: NavController? = null) {
+fun ProductDetail(
+    productId: String,
+    navController: NavController? = null,
+    viewModelProduct: ViewModelProduct = viewModel()
+) {
+    val detailProduct by viewModelProduct.detailProduct
+
+    LaunchedEffect(Unit) {
+        viewModelProduct.detailProductViewModel(productId)
+    }
+
+    var number by remember { mutableStateOf(1) }
 
     Box {
         Box(
@@ -56,13 +74,14 @@ fun ProductDetail(navController: NavController? = null) {
                 .zIndex(1f)
         ) {
             IconButton(
-                onClick = { },
+                onClick = {
+                    navController?.popBackStack()
+                },
                 Modifier
                     .background(
                         Color.White,
                         shape = RoundedCornerShape(6.dp)
                     )
-
                     .width(40.dp)
                     .height(40.dp)
             ) {
@@ -75,8 +94,6 @@ fun ProductDetail(navController: NavController? = null) {
                 )
             }
         }
-
-
 
 
         Box(
@@ -146,10 +163,10 @@ fun ProductDetail(navController: NavController? = null) {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.minimalstand),
-                contentDescription = null,
-                Modifier
+            AsyncImage(
+                model = detailProduct?.image,
+                contentDescription = "",
+                modifier = Modifier
                     .width(323.dp)
                     .height(455.dp)
                     .align(Alignment.End)
@@ -165,18 +182,18 @@ fun ProductDetail(navController: NavController? = null) {
                     )
                     .fillMaxWidth()
                     .clickable(
-                        onClick = {
-//                            navController?.navigate(Screen.ProductDetail.route)
-                        })
+                        onClick = {})
             ) {
 
                 // tên sản phẩm
-                Text(
-                    text = "Minimal Stand",
-                    fontFamily = FontFamily(Font(R.font.gelasio_regular)),
-                    fontWeight = FontWeight(500),
-                    fontSize = 24.sp,
-                )
+                detailProduct?.let {
+                    Text(
+                        text = it.productName,
+                        fontFamily = FontFamily(Font(R.font.gelasio_regular)),
+                        fontWeight = FontWeight(500),
+                        fontSize = 24.sp,
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(10.dp))
 
@@ -189,7 +206,7 @@ fun ProductDetail(navController: NavController? = null) {
 
                     // giá
                     Text(
-                        text = "$ 50",
+                        text = "$ ${detailProduct?.price}",
                         fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
                         fontWeight = FontWeight(700),
                         fontSize = 30.sp,
@@ -204,7 +221,7 @@ fun ProductDetail(navController: NavController? = null) {
                     ) {
 
                         IconButton(
-                            onClick = {},
+                            onClick = { number++ },
                             modifier = Modifier
                                 .size(30.dp)
                                 .background(
@@ -220,7 +237,7 @@ fun ProductDetail(navController: NavController? = null) {
                         }
 
                         Text(
-                            text = "1",
+                            text = number.toString(),
                             fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
                             fontWeight = FontWeight(600),
                             fontSize = 18.sp,
@@ -232,7 +249,7 @@ fun ProductDetail(navController: NavController? = null) {
                         )
 
                         IconButton(
-                            onClick = {},
+                            onClick = { number-- },
                             modifier = Modifier
                                 .size(30.dp)
                                 .background(
@@ -289,16 +306,15 @@ fun ProductDetail(navController: NavController? = null) {
                 Spacer(modifier = Modifier.height(10.dp))
 
                 // mô tả
-                Text(
-                    text = "Minimal Stand is made of by natural wood. " +
-                            "The design that is very simple and minimal. " +
-                            "This is truly one of the best furnitures in any family for now. " +
-                            "With 3 different colors, you can easily select the best match for your home. ",
-                    fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
-                    fontWeight = FontWeight(300),
-                    fontSize = 14.sp,
-                    color = Color("#606060".toColorInt()),
-                )
+                detailProduct?.description?.let {
+                    Text(
+                        text = it,
+                        fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
+                        fontWeight = FontWeight(300),
+                        fontSize = 14.sp,
+                        color = Color("#606060".toColorInt()),
+                    )
+                }
 
             }
         }
@@ -339,7 +355,9 @@ fun ProductDetail(navController: NavController? = null) {
                 }
 
                 Button(
-                    onClick = {},
+                    onClick = {
+                        navController?.navigate(Screen.Cart.route)
+                    },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color("#242424".toColorInt())
                     ),
@@ -360,8 +378,6 @@ fun ProductDetail(navController: NavController? = null) {
                     )
                 }
             }
-
-            // nút thêm vào yêu thích
 
 
         }

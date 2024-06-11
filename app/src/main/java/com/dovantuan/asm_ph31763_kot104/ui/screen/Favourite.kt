@@ -1,6 +1,5 @@
-package com.dovantuan.asm_ph31763_kot104
+package com.dovantuan.asm_ph31763_kot104.ui.screen
 
-import android.app.Notification
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun Notification(){
+fun Favourite(){
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -27,7 +26,7 @@ fun Notification(){
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TextButton(onClick = { /*TODO*/ }) {
-                Text("Notification", fontSize = 20.sp, color = Color.Red)
+                Text("Favourite", fontSize = 20.sp, color = Color.Red)
             }
         }
     }

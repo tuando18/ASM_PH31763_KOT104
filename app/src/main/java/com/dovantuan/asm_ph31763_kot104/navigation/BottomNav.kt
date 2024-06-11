@@ -1,4 +1,4 @@
-package com.dovantuan.asm_ph31763_kot104
+package com.dovantuan.asm_ph31763_kot104.navigation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.height
@@ -19,6 +19,11 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.dovantuan.asm_ph31763_kot104.R
+import com.dovantuan.asm_ph31763_kot104.ui.screen.Favourite
+import com.dovantuan.asm_ph31763_kot104.ui.screen.Home
+import com.dovantuan.asm_ph31763_kot104.ui.screen.Notification
+import com.dovantuan.asm_ph31763_kot104.ui.screen.Profile
 
 
 @Preview(showBackground = true)
